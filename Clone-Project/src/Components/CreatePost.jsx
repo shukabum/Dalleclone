@@ -74,30 +74,28 @@ const CreatePost = () => {
     }
     const generateImage= async()=>{
         if(form.prompt){
+            setgeneratingImg(true);
             try{
-                setgeneratingImg(true);
 
-                const response = await fetch("http://localhost:8080/api/v1/dalle",
+                const response = await fetch('http://localhost:8080/api/v1/dalle',
                 {
                     method:'POST',
                     headers:{
-                        'Content-Type':'application/json'
+                        'Content-Type':'application/json',
                     },
                     body :JSON.stringify({
                         prompt:form.prompt
                     }),
                 }
-
                 )
-               
                 console.log(response);
                 const data = await response.json();
+                console.log(data);
                 
                   
                 setForm({
                     ...form,
                     photo:`data:image/jpeg;base64,${data.photo}`,
-                    // photo : response['data'][0]['url']
                 })
                 
             }catch(error){
@@ -164,7 +162,7 @@ const CreatePost = () => {
                     type="text"
                     name="name"
                     value={form.name}
-                    required={"true"}
+                    required={true}
                     onChange={handleChange1}
                     />
                     <FormField 
@@ -173,7 +171,7 @@ const CreatePost = () => {
                     name="prompt"
 
                     value={form.prompt}
-                    required={"true"}
+                    required={true}
                     onChange={handleChange2}
                     isSupriseMe
                     handleSupriseMe={handleSupriseMe}
